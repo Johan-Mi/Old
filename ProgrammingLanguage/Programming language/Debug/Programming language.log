@@ -1,3 +1,0 @@
-﻿  Source.cpp
-C:\Users\user\source\repos\Programming language\Programming language\Source.cpp(111): warning C4804: '/': unsafe use of type 'bool' in operation
-  Programming language.vcxproj -> C:\Users\user\source\repos\Programming language\Debug\Programming language.exe

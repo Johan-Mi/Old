@@ -1,3 +1,0 @@
-﻿  Source.cpp
-C:\Users\user\source\repos\Conway's game of life\Conway's game of life\Source.cpp(17,13): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Conway's game of life.vcxproj -> C:\Users\user\source\repos\Conway's game of life\Debug\Conway's game of life.exe

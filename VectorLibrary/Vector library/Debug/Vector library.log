@@ -1,3 +1,0 @@
-﻿  Source.cpp
-C:\Users\user\source\repos\Vector library\Vector library\vectorlib.h(6): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Vector library.vcxproj -> C:\Users\user\source\repos\Vector library\Debug\Vector library.exe

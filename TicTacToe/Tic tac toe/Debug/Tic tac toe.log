@@ -1,5 +1,0 @@
-﻿  Source.cpp
-C:\Users\user\source\repos\Tic tac toe\Tic tac toe\Source.cpp(79): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\user\source\repos\Tic tac toe\Tic tac toe\Source.cpp(80): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\user\source\repos\Tic tac toe\Tic tac toe\Source.cpp(94): warning C4007: 'WinMain': must be '__stdcall'
-  Tic tac toe.vcxproj -> C:\Users\user\source\repos\Tic tac toe\Debug\Tic tac toe.exe
