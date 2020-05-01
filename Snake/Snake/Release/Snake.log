@@ -1,0 +1,10 @@
+﻿  Source.cpp
+C:\Users\user\source\repos\Snake\Snake\Source.cpp(20): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\user\source\repos\Snake\Snake\Source.cpp(41): warning C4018: '<': signed/unsigned mismatch
+C:\Users\user\source\repos\Snake\Snake\Source.cpp(105): warning C4007: 'WinMain': must be '__stdcall'
+  Generating code
+  7 of 604 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    12 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Snake.vcxproj -> C:\Users\user\source\repos\Snake\Release\Snake.exe

@@ -1,0 +1,273 @@
+; Zilog eZ80 ANSI C Compiler Release 3.4
+; -optsize -noreduceopt -nomodsect -peephole -globalopt
+; -localcse -const=ROM 
+	FILE	"SRC\MAIN.C"
+	.assume ADL=1
+	SEGMENT CODE
+;    1	/* Keep these headers */
+;    2	#include <stdbool.h>
+;    3	#include <stddef.h>
+;    4	#include <stdint.h>
+;    5	#include <tice.h>
+;    6	
+;    7	/* Standard headers (recommended) */
+;    8	#include <math.h>
+;    9	#include <stdio.h>
+;   10	#include <stdlib.h>
+;   11	#include <string.h>
+;   12	
+;   13	#include <graphx.h>
+;   14	
+;   15	#include "gfx/image_gfx.h"
+;   16	/* Put your function prototypes here */
+;   17	
+;   18	/* Put all your globals here */
+;   19	
+;   20	void main(void) {
+_main:
+	LD	HL,-28
+	CALL	__frameset
+;   21		int
+;   22			sprX = 0,
+	LD	BC,0
+	LD	(IX+-3),BC
+;   23			sprY = 0,
+	LD	(IX+-6),BC
+;   24			sprXDir = 1,
+	LD	BC,1
+	LD	(IX+-9),BC
+;   25			sprYDir = 1,
+	LD	(IX+-12),BC
+;   26			colourIndex = 0;
+	LD	BC,0
+	LD	(IX+-15),BC
+;   27		const int16_t colours[] = {0xFFE0, 0x0099, 0xF800, 0x07E0, 0xFC00};
+	LEA	DE,IX+-28
+	LD	HL,_0temp0
+	LD	BC,10
+	LDIR	
+;   28	
+;   29		gfx_Begin();
+	CALL	_gfx_Begin
+;   30		gfx_SetDrawBuffer();
+	LD	BC,1
+	PUSH	BC
+	CALL	_gfx_SetDraw
+	POP	BC
+;   31		gfx_SetPalette(image_gfx_pal, sizeof_image_gfx_pal, 0);
+	LD	BC,0
+	PUSH	BC
+	LD	BC,4
+	PUSH	BC
+	LD	BC,_image_gfx_pal
+	PUSH	BC
+	CALL	_gfx_SetPalette
+	POP	BC
+	POP	BC
+	POP	BC
+;   32		
+;   33		while(!os_GetCSC()) {
+	JR	L_25
+L_26:
+;   34			gfx_ZeroScreen();
+	CALL	_gfx_ZeroScreen
+;   35			gfx_Sprite(image, sprX, sprY);
+	LD	BC,(IX+-6)
+	PUSH	BC
+	LD	BC,(IX+-3)
+	PUSH	BC
+	LD	BC,_image_data
+	PUSH	BC
+	CALL	_gfx_Sprite
+	POP	BC
+	POP	BC
+	POP	BC
+;   36			gfx_SwapDraw();
+	CALL	_gfx_SwapDraw
+;   37			sprX += sprXDir;
+	LD	BC,(IX+-9)
+	LD	HL,(IX+-3)
+	ADD	HL,BC
+	LD	(IX+-3),HL
+;   38			sprY += sprYDir;
+	LD	BC,(IX+-12)
+	LD	HL,(IX+-6)
+	ADD	HL,BC
+	LD	(IX+-6),HL
+;   39	
+;   40			(sprX == 0) && (sprXDir = 1);
+	LD	HL,(IX+-3)
+	CALL	__icmpzero
+	JR	NZ,L_4
+	LD	BC,1
+	LD	(IX+-9),BC
+L_4:
+;   41			(sprY == 0) && (sprYDir = 1);
+	LD	HL,(IX+-6)
+	CALL	__icmpzero
+	JR	NZ,L_9
+	LD	BC,1
+	LD	(IX+-12),BC
+L_9:
+;   42			(sprX == LCD_WIDTH - image_data[0]) && (sprXDir = -1);
+	LD	A,(_image_data)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,320
+	OR	A,A
+	SBC	HL,BC
+	OR	A,A
+	LD	BC,(IX+-3)
+	SBC	HL,BC
+	JR	NZ,L_14
+	LD	BC,16777215
+	LD	(IX+-9),BC
+L_14:
+;   43			(sprY == LCD_HEIGHT - image_data[1]) && (sprYDir = -1);
+	LD	BC,_image_data
+	INC	BC
+	LD	(IX+-18),BC
+	LD	HL,BC
+	LD	A,(HL)
+	UEXT	HL
+	LD	L,A
+	LD	BC,HL
+	LD	HL,240
+	OR	A,A
+	SBC	HL,BC
+	OR	A,A
+	LD	BC,(IX+-6)
+	SBC	HL,BC
+	JR	NZ,L_19
+	LD	BC,16777215
+	LD	(IX+-12),BC
+L_19:
+;   44			if((sprX < 2 || sprX + image_data[0] > LCD_WIDTH - 2) && (sprY < 2 || sprY + image_data[1] > LCD_HEIGHT - 2)) {
+	LD	BC,2
+	LD	HL,(IX+-3)
+	OR	A,A
+	SBC	HL,BC
+	CALL	__setflag
+	JP	M,L_23
+	LD	A,(_image_data)
+	UEXT	HL
+	LD	L,A
+	LD	BC,(IX+-3)
+	ADD	HL,BC
+	LD	BC,HL
+	LD	HL,318
+	OR	A,A
+	SBC	HL,BC
+	CALL	__setflag
+	JP	P,L_25
+L_23:
+	LD	BC,2
+	LD	HL,(IX+-6)
+	OR	A,A
+	SBC	HL,BC
+	CALL	__setflag
+	JP	M,L_24
+	LD	HL,(IX+-18)
+	LD	A,(HL)
+	UEXT	HL
+	LD	L,A
+	LD	BC,(IX+-6)
+	ADD	HL,BC
+	LD	BC,HL
+	LD	HL,238
+	OR	A,A
+	SBC	HL,BC
+	CALL	__setflag
+	JP	P,L_25
+L_24:
+;   45				image_gfx_pal[1] = colours[colourIndex = (colourIndex + 1) % 5];
+	LD	HL,(IX+-15)
+	INC	HL
+	LD	BC,5
+	CALL	__irems
+	LD	(IX+-15),HL
+	ADD	HL,HL
+	LD	BC,HL
+	LEA	HL,IX+-28
+;   46				gfx_SetPalette(image_gfx_pal, sizeof_image_gfx_pal, 0);
+	LD	DE,0
+	PUSH	DE
+	LD	DE,4
+	PUSH	DE
+	LD	DE,_image_gfx_pal
+	PUSH	DE
+	ADD	HL,BC
+	LD	BC,(HL)
+	LD	HL,_image_gfx_pal+2
+	LD	(HL),C
+	INC	HL
+	LD	(HL),B
+	CALL	_gfx_SetPalette
+	POP	BC
+	POP	BC
+	POP	BC
+;   47			}
+;   48		}
+L_25:
+	CALL	_os_GetCSC
+	OR	A,A
+	JR	Z,L_26
+;   49	
+;   50		gfx_End();
+	CALL	_gfx_End
+;   51	}
+	LD	SP,IX
+	POP	IX
+	RET	
+
+
+;**************************** _main ***************************
+;Name                         Addr/Register   Size   Type
+;_gfx_End                            IMPORT  -----   function
+;_os_GetCSC                          IMPORT  -----   function
+;_gfx_SwapDraw                       IMPORT  -----   function
+;_image_data                         IMPORT   1346   variable
+;_gfx_Sprite                         IMPORT  -----   function
+;_gfx_ZeroScreen                     IMPORT  -----   function
+;_image_gfx_pal                      IMPORT      4   variable
+;_gfx_SetPalette                     IMPORT  -----   function
+;_gfx_SetDraw                        IMPORT  -----   function
+;_gfx_Begin                          IMPORT  -----   function
+;_0temp0                             STATIC     10   variable
+;colours                              IX-28     10   variable
+;G_0                                  IX-18      3   variable
+;colourIndex                          IX-15      3   variable
+;sprYDir                              IX-12      3   variable
+;sprXDir                               IX-9      3   variable
+;sprY                                  IX-6      3   variable
+;sprX                                  IX-3      3   variable
+
+
+; Stack Frame Size: 34 (bytes)
+;       Spill Code: 0 (instruction)
+
+
+	SEGMENT TEXT
+_0temp0:
+	DW	65504
+	DW	153
+	DW	63488
+	DW	2016
+	DW	64512
+	XREF _image_gfx_pal:ROM
+	XREF _image_data:ROM
+	XREF _gfx_Sprite:ROM
+	XREF _gfx_SwapDraw:ROM
+	XREF _gfx_SetDraw:ROM
+	XREF _gfx_ZeroScreen:ROM
+	XREF _gfx_SetPalette:ROM
+	XREF _gfx_End:ROM
+	XREF _gfx_Begin:ROM
+	XREF _os_GetCSC:ROM
+	XREF __irems:ROM
+	XREF __frameset:ROM
+	XREF __setflag:ROM
+	XREF __icmpzero:ROM
+	XDEF _main
+	END

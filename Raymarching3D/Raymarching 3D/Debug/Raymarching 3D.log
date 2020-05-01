@@ -1,0 +1,7 @@
+﻿  Source.cpp
+C:\Users\user\source\repos\Raymarching 3D\Raymarching 3D\vectorlib.h(6): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\user\source\repos\Raymarching 3D\Raymarching 3D\Source.cpp(10): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\user\source\repos\Raymarching 3D\Raymarching 3D\Source.cpp(66): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\source\repos\Raymarching 3D\Raymarching 3D\Source.cpp(67): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\user\source\repos\Raymarching 3D\Raymarching 3D\Source.cpp(101): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Raymarching 3D.vcxproj -> C:\Users\user\source\repos\Raymarching 3D\Debug\Raymarching 3D.exe

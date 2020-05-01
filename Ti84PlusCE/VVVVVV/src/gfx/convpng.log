@@ -1,0 +1,23 @@
+opened convpng.ini
+
+--- tiles_gfx (C) ---
+building palette with [8] available indices ...
+built palette with [6] indices.
+palette quality : 100.00%
+transparent color index : 0
+transparent color : 0x0000
+1:
+ tiles : 100.00%
+
+--- player_gfx (C) ---
+building palette with [2] available indices ...
+built palette with [2] indices.
+palette quality : 100.00%
+transparent color index : 0
+transparent color : 0x0000
+1:
+ player : 100.00%
+
+converted in 0 s
+
+finished!

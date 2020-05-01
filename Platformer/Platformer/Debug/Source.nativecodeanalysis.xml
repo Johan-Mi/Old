@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\user\source\repos\platformer\platformer</FILEPATH>
+      <FILENAME>source.cpp</FILENAME>
+      <LINE>68</LINE>
+      <COLUMN>119</COLUMN>
+    </SFA>
+    <DEFECTCODE>6282</DEFECTCODE>
+    <DESCRIPTION>Incorrect operator:  assignment of constant in Boolean context. Consider using '==' instead.</DESCRIPTION>
+    <FUNCTION>Example::OnUserUpdate</FUNCTION>
+    <DECORATED>?OnUserUpdate@Example@@UAE_NM@Z</DECORATED>
+    <FUNCLINE>67</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\user\source\repos\platformer\platformer</FILEPATH>
+      <FILENAME>source.cpp</FILENAME>
+      <LINE>68</LINE>
+      <COLUMN>66</COLUMN>
+    </SFA>
+    <DEFECTCODE>6282</DEFECTCODE>
+    <DESCRIPTION>Incorrect operator:  assignment of constant in Boolean context. Consider using '==' instead.</DESCRIPTION>
+    <FUNCTION>Example::OnUserUpdate</FUNCTION>
+    <DECORATED>?OnUserUpdate@Example@@UAE_NM@Z</DECORATED>
+    <FUNCLINE>67</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

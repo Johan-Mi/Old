@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\user\source\repos\Encrypter\Encrypter\Source.cpp(21): warning C4244: 'initializing': conversion from 'std::streamoff' to 'size_t', possible loss of data
+C:\Users\user\source\repos\Encrypter\Encrypter\Source.cpp(29): warning C4018: '<': signed/unsigned mismatch
+  Encrypter.vcxproj -> C:\Users\user\source\repos\Encrypter\Debug\Encrypter.exe

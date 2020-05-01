@@ -1,0 +1,3 @@
+﻿  Assembling Source.asm...
+Source.asm(12): fatal error A1010: unmatched block nesting : _go
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\masm.targets(69,5): error MSB3721: The command "ml.exe /c /nologo /Zi /Fo"Debug\Source.obj" /W3 /errorReport:prompt  /TaSource.asm" exited with code 1.
