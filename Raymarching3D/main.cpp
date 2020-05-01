@@ -3,7 +3,6 @@
 #include "vectorlib.h"
 using namespace vectorlib;
 
-#pragma region Defintions
 constexpr int iMaxIterations = 15;
 constexpr float
 fFovX = 3,
@@ -26,9 +25,7 @@ struct Sphere : Shape {
 	float distance(Ray r) override { return (r.pos - this->pos).magnitude() - this->size; }
 	Sphere(float x, float y, float z, float inSize, Material inMat) : Shape(x, y, z, inSize, inMat) {}
 };
-#pragma endregion
 
-#pragma region Materials and shapes
 Material materials[]{
 	{olc::GREEN},
 	{olc::BLUE},
@@ -39,7 +36,6 @@ Shape* shapes[] {
 	new Sphere(5, 5, 2, 1.5, materials[1]),
 };
 
-#pragma endregion
 
 class Example : public olc::PixelGameEngine {
 public:
@@ -52,7 +48,6 @@ public:
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
-#pragma region Controls
 		if(GetKey(olc::ESCAPE).bHeld)
 			return false;
 
@@ -93,9 +88,7 @@ public:
 			camera.pos.x -= 3 * sinf(camera.yaw) * fElapsedTime;
 			camera.pos.z += 3 * cosf(camera.yaw) * fElapsedTime;
 		}
-#pragma endregion
 
-#pragma region Rendering
 		Clear(bgColour);
 
 		for(int iScreenX = 0; iScreenX < ScreenWidth(); iScreenX++) {
@@ -108,7 +101,7 @@ public:
 
 				while(!bCollided && iIterations++ < iMaxIterations) {
 					Shape* closestShape = nullptr;
-					for(int currentShape = 0; currentShape < sizeof(shapes) / sizeof(shapes[0]); currentShape++) {
+					for(size_t currentShape = 0; currentShape < sizeof(shapes) / sizeof(shapes[0]); currentShape++) {
 						float fDist = shapes[currentShape]->distance(ray);
 						if(fDist < fMarchLength) {
 							fMarchLength = fDist;
@@ -125,11 +118,8 @@ public:
 				}
 			}
 		}
-#pragma endregion
 
-#pragma region Overlay
 		DrawString(0, 0, std::to_string(camera.pos.x) + ' ' + std::to_string(camera.pos.y) + ' ' + std::to_string(camera.pos.z), olc::WHITE);
-#pragma endregion
 		return true;
 	}
 };

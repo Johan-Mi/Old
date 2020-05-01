@@ -1,23 +1,25 @@
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 #include <ctime>
+#include <cmath>
 
-float fPlayer;
-float fComp;
-float fBallX;
-float fBallY;
-float fBallDir;
-const int iPaddleSize = 10;
-const float pi = 3.1415926535;
-const float fPaddleSpeed = 150;
-float fBallSpeed = 200;
-const int iBallRadius = 2;
-int iPlayerScore = 0;
-int iCompScore = 0;
-bool bHitEdge = false;
-std::clock_t timer;
+constexpr int iPaddleSize = 10;
+constexpr float pi = 3.1415926535;
+constexpr float fPaddleSpeed = 200;
+constexpr int iBallRadius = 2;
 
 class Example : public olc::PixelGameEngine {
+	float fPlayer;
+	float fComp;
+	float fBallX;
+	float fBallY;
+	float fBallDir;
+	float fBallSpeed = 200;
+	int iPlayerScore = 0;
+	int iCompScore = 0;
+	bool bHitEdge = false;
+	std::clock_t timer;
+
 public:
 	Example() {
 		sAppName = "Example";
@@ -44,14 +46,15 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override {
 		if(fElapsedTime > 1)
 			fElapsedTime = 0;
-		
+
 		fBallSpeed = 200 + (std::clock() - timer) / 1000;
 		if(GetKey(olc::ESCAPE).bHeld)
 			return false;
 
 		Clear(olc::BLACK);
 		DrawLine(0, 16, ScreenWidth(), 16, olc::WHITE);
-		DrawString(ScreenWidth() / 2 - 16, 5, std::to_string(iPlayerScore) + " - " + std::to_string(iCompScore), olc::WHITE);
+		DrawString(ScreenWidth() / 2 - 16, 5, std::to_string(iPlayerScore)
+				+ " - " + std::to_string(iCompScore), olc::WHITE);
 
 		if(GetKey(olc::UP).bHeld) {
 			fPlayer -= fPaddleSpeed * fElapsedTime;
@@ -74,10 +77,12 @@ public:
 			fBallDir = -fBallDir;
 		}
 
-		if(fBallX < 18 + iBallRadius && fBallX > 16 - iBallRadius && abs(fBallY - fPlayer) < iPaddleSize) {
+		if(fBallX < 18 + iBallRadius && fBallX > 16 - iBallRadius
+				&& std::abs(fBallY - fPlayer) < iPaddleSize) {
 			fBallX = 18 + iBallRadius;
 			fBallDir = pi - fBallDir;
-		} else if(fBallX > ScreenWidth() - 18 - iBallRadius && fBallX < ScreenWidth() - 16 + iBallRadius && abs(fBallY - fComp) < iPaddleSize) {
+		} else if(fBallX > ScreenWidth() - 18 - iBallRadius
+				&& fBallX < ScreenWidth() - 16 + iBallRadius && std::abs(fBallY - fComp) < iPaddleSize) {
 			fBallX = ScreenWidth() - 18 - iBallRadius;
 			fBallDir = pi - fBallDir;
 		}
@@ -110,7 +115,7 @@ public:
 };
 
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow) {
+int main() {
 	Example demo;
 	if(demo.Construct(320, 180, 4, 4, true))
 		demo.Start();

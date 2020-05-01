@@ -1,13 +1,14 @@
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 #include <chrono>
+#include <memory>
 
 uint8_t iTurn = 1;
 uint8_t iBoard[3][3]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 uint8_t iWinner = 0;
 bool bEndGame = false;
-olc::Sprite* spr1;
-olc::Sprite* spr2;
+std::unique_ptr<olc::Sprite> spr1;
+std::unique_ptr<olc::Sprite> spr2;
 
 constexpr uint8_t winChecks[8][3]{
 	{0,1,2},
@@ -22,24 +23,19 @@ constexpr uint8_t winChecks[8][3]{
 
 void checkWin(uint8_t iSide) {
 	for(uint8_t i = 0; i < 8; i++) {
-		bool bWin = true;
-		for(uint8_t j = 0; j < 3; j++) {
-			bWin &= iBoard[winChecks[i][j] >> 2][winChecks[i][j] & 3] == iSide;
-		}
-		if(bWin) {
-			iWinner = iSide;
-			return;
-		}
+		for(uint8_t j = 0; j < 3; j++)
+			if(iBoard[winChecks[i][j] >> 2][winChecks[i][j] & 3] != iSide)
+				goto no_win;
+		iWinner = iSide;
+		return;
+no_win:;
 	}
 
-	bool bBoardFull = true;
 	for(uint8_t i = 0; i < 3; i++)
 		for(uint8_t j = 0; j < 3; j++)
-			bBoardFull &= iBoard[i][j] != 0;
-	if(bBoardFull) {
-		iWinner = 4;
-		return;
-	}
+			if(!iBoard[i][j])
+				return;
+	iWinner = 4;
 }
 
 class Example : public olc::PixelGameEngine {
@@ -50,8 +46,8 @@ public:
 
 public:
 	bool OnUserCreate() override {
-		spr1 = new olc::Sprite("..\\1.png");
-		spr2 = new olc::Sprite("..\\2.png");
+		spr1 = std::make_unique<olc::Sprite>("1.png");
+		spr2 = std::make_unique<olc::Sprite>("2.png");
 		Clear(olc::WHITE);
 		DrawLine(0, 32, 97, 32, olc::BLACK);
 		DrawLine(0, 65, 97, 65, olc::BLACK);
@@ -88,7 +84,8 @@ public:
 			uint8_t iMouseY = GetMouseY() / 33;
 			if(iBoard[iMouseY][iMouseX] == 0) {
 				iBoard[iMouseY][iMouseX] = iTurn;
-				DrawSprite(iMouseX * 33, iMouseY * 33, iTurn & 1 ? spr1 : spr2);
+				DrawSprite(iMouseX * 33, iMouseY * 33,
+						iTurn & 1 ? spr1.get() : spr2.get());
 				checkWin(iTurn);
 				iTurn ^= 3;
 			}
@@ -102,7 +99,5 @@ int main() {
 	Example demo;
 	if(demo.Construct(98, 98, 4, 4))
 		demo.Start();
-	delete spr1;
-	delete spr2;
 	return 0;
 }

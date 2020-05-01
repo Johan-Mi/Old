@@ -1,12 +1,14 @@
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
+#include <memory>
+#include <memory.h>
 
-const int iBoardWidth = 7;
-const int iBoardHeight = 6;
-byte yBoard[iBoardHeight][iBoardWidth];
-byte yTurn = 1;
-byte yWinner = 0;
-olc::Sprite* sprites[3];
+constexpr size_t boardWidth = 7;
+constexpr size_t boardHeight = 6;
+uint8_t board[boardHeight][boardWidth];
+uint8_t turn = 1;
+uint8_t winner = 0;
+std::unique_ptr<olc::Sprite> sprites[3];
 bool bGameEnded = false;
 
 class Example : public olc::PixelGameEngine {
@@ -17,15 +19,13 @@ public:
 
 public:
 	bool OnUserCreate() override {
-		sprites[0] = new olc::Sprite("..\\0.png");
-		sprites[1] = new olc::Sprite("..\\1.png");
-		sprites[2] = new olc::Sprite("..\\2.png");
-		for(int i = 0; i < iBoardHeight; i++) {
-			for(int j = 0; j < iBoardWidth; j++) {
-				yBoard[i][j] = 0;
-				DrawSprite(j * 16, i * 16, sprites[0]);
-			}
-		}
+		sprites[0] = std::make_unique<olc::Sprite>("0.png");
+		sprites[1] = std::make_unique<olc::Sprite>("1.png");
+		sprites[2] = std::make_unique<olc::Sprite>("2.png");
+		memset(board, 0, boardWidth * boardHeight);
+		for(size_t i = 0; i < boardHeight; i++)
+			for(size_t j = 0; j < boardWidth; j++)
+				DrawSprite(j * 16, i * 16, sprites[0].get());
 		return true;
 	}
 
@@ -33,86 +33,81 @@ public:
 		if(bGameEnded) {
 			std::this_thread::sleep_for(std::chrono::seconds(2));
 			return false;
-		} else if(yWinner != 0) {
+		} else if(winner != 0) {
 			bGameEnded = true;
-			std::this_thread::sleep_for(std::chrono::seconds(2));
+			std::this_thread::sleep_for(std::chrono::seconds(1));
 			Clear(olc::WHITE);
-			if(yWinner == 1)
+			if(winner == 1)
 				DrawString(20, 40, "Red won!", olc::BLACK);
-			else if(yWinner == 2)
+			else if(winner == 2)
 				DrawString(20, 40, "Blue won!", olc::BLACK);
 			else
 				DrawString(25, 40, "Tie!", olc::BLACK);
 		}
 		else if(GetMouse(0).bPressed) {
-			int iSelectedCol = floor(GetMouseX() / 16);
-			if(yBoard[0][iSelectedCol] == 0) {
-				int iTestRow = 0;
-				while(iTestRow < iBoardHeight - 1 && yBoard[iTestRow + 1][iSelectedCol] == 0)
+			size_t iSelectedCol = floor(GetMouseX() / 16);
+			if(board[0][iSelectedCol] == 0) {
+				size_t iTestRow = 0;
+				while(iTestRow < boardHeight - 1 && board[iTestRow + 1][iSelectedCol] == 0)
 					iTestRow++;
-				yBoard[iTestRow][iSelectedCol] = yTurn;
-				DrawSprite(iSelectedCol * 16, iTestRow * 16, sprites[yTurn]);
+				board[iTestRow][iSelectedCol] = turn;
+				DrawSprite(iSelectedCol * 16, iTestRow * 16, sprites[turn].get());
 
-				for(int i = 0; i < iBoardHeight; i++) {
-					for(int j = 0; j < iBoardWidth - 3; j++) {
-						bool bWin = true;
-						for(int k = 0; k < 4; k++) {
-							bWin &= yBoard[i][j + k] == yTurn;
-						}
-						if(bWin)
-							yWinner = yTurn;
+				for(size_t i = 0; i < boardHeight; i++) {
+					for(size_t j = 0; j < boardWidth - 3; j++) {
+						for(int k = 0; k < 4; k++)
+							if(board[i][j + k] != turn)
+								goto no_win_1;
+						winner = turn;
+no_win_1:;
 					}
 				}
 
-				for(int i = 0; i < iBoardHeight - 3; i++) {
-					for(int j = 0; j < iBoardWidth; j++) {
-						bool bWin = true;
-						for(int k = 0; k < 4; k++) {
-							bWin &= yBoard[i + k][j] == yTurn;
-						}
-						if(bWin)
-							yWinner = yTurn;
+				for(size_t i = 0; i < boardHeight - 3; i++) {
+					for(size_t j = 0; j < boardWidth; j++) {
+						for(int k = 0; k < 4; k++)
+							if(board[i + k][j] != turn)
+								goto no_win_2;
+						winner = turn;
+no_win_2:;
 					}
 				}
 
-				for(int i = 0; i < iBoardHeight - 3; i++) {
-					for(int j = 0; j < iBoardWidth - 3; j++) {
-						bool bWin = true;
-						for(int k = 0; k < 4; k++) {
-							bWin &= yBoard[i + k][j + k] == yTurn;
-						}
-						if(bWin)
-							yWinner = yTurn;
+				for(size_t i = 0; i < boardHeight - 3; i++) {
+					for(size_t j = 0; j < boardWidth - 3; j++) {
+						for(int k = 0; k < 4; k++)
+							if(board[i + k][j + k] != turn)
+								goto no_win_3;
+						winner = turn;
+no_win_3:;
 					}
 				}
 
-				for(int i = 3; i < iBoardHeight; i++) {
-					for(int j = 0; j < iBoardWidth - 3; j++) {
-						bool bWin = true;
-						for(int k = 0; k < 4; k++) {
-							bWin &= yBoard[i - k][j + k] == yTurn;
-						}
-						if(bWin)
-							yWinner = yTurn;
+				for(size_t i = 3; i < boardHeight; i++) {
+					for(size_t j = 0; j < boardWidth - 3; j++) {
+						for(int k = 0; k < 4; k++)
+							if(board[i - k][j + k] != turn)
+								goto no_win_4;
+						winner = turn;
+no_win_4:;
 					}
 				}
 
-				bool bWin = true;
-				for(int i = 0; i < iBoardHeight; i++) {
-					for(int j = 0; j < iBoardWidth; j++)
-						bWin &= yBoard[i][j] != 0;
-				}
-				if(bWin)
-					yWinner = 3;
+				for(size_t i = 0; i < boardHeight; i++)
+					for(size_t j = 0; j < boardWidth; j++)
+						if(board[i][j] == 0)
+							goto no_win_5;
+				winner = 3;
+no_win_5:;
 
-				yTurn = 3 - yTurn;
+				turn = 3 - turn;
 			}
 		}
 		return true;
 	}
 };
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
+int main() {
 	Example demo;
 	if(demo.Construct(112, 96, 4, 4))
 		demo.Start();
