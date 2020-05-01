@@ -146,11 +146,11 @@ namespace vectorlib {
 		}
 	};
 
-	auto vector2FromAngle = [&](float fAngle) {
-		return Vector2(cosf(fAngle), sinf(fAngle));
+	Vector2 vector2FromAngle(float fAngle) {
+		return {cosf(fAngle), sinf(fAngle)};
 	};
-	auto vector3FromAngles = [&](float fPitch, float fYaw) {
-		return Vector3(cosf(fPitch) * cosf(fYaw), sinf(fPitch), cosf(fPitch) * sinf(fYaw));
+	Vector3 vector3FromAngles(float fPitch, float fYaw) {
+		return {cosf(fPitch) * cosf(fYaw), sinf(fPitch), cosf(fPitch) * sinf(fYaw)};
 	};
 	std::ostream& operator<<(std::ostream& inStream, const Vector2& inVector) {
 		inStream << '(' << inVector.x << ", " << inVector.y << ')';
