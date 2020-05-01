@@ -2,12 +2,16 @@
 #include "olcPixelGameEngine.h"
 #include <deque>
 
-int iWidth = 80;
-int iHeight = 45;
+constexpr size_t width = 80;
+constexpr size_t height = 45;
 int iDir = 0;
 int iFoodX;
 int iFoodY;
-std::deque<std::pair<int, int>> pParts = {{iWidth / 2 - 2, iHeight / 2}, {iWidth / 2 - 1, iHeight / 2}, {iWidth / 2, iHeight / 2}};
+std::deque<std::pair<int, int>> pParts = {
+	{width / 2 - 2, height / 2},
+	{width / 2 - 1, height / 2},
+	{width / 2, height / 2}
+};
 
 
 class Example : public olc::PixelGameEngine {
@@ -27,8 +31,8 @@ public:
 		bool bPlaceable = false;
 		while(!bPlaceable) {
 			bPlaceable = true;
-			iFoodX = rand() % iWidth;
-			iFoodY = rand() % iHeight;
+			iFoodX = rand() % width;
+			iFoodY = rand() % height;
 			for(auto a : pParts)
 				bPlaceable &= !(a.first == iFoodX && a.second == iFoodY);
 		}
@@ -38,22 +42,26 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override {
 		int iHeadX = pParts.back().first;
 		int iHeadY = pParts.back().second;
-		
-		for(int a = 0; a < std::size(pParts) - 1; a++) {
-			if(iHeadX == pParts[a].first && iHeadY == pParts[a].second)
+
+		for(auto &part : pParts)
+			if(iHeadX == part.first && iHeadY == part.second
+					&& &part != &pParts.back())
 				return false;
-		}
 
 		auto Start = std::chrono::high_resolution_clock::now();
 		while(true) {
 			if(GetKey(olc::ESCAPE).bHeld)
 				return false;
 
-			int iDirNew;
-			((GetKey(olc::RIGHT).bHeld || GetKey(olc::NP3).bHeld) && iDir != 2) && (iDirNew = 0);
-			((GetKey(olc::UP).bHeld || GetKey(olc::NP5).bHeld) && iDir != 3) && (iDirNew = 1);
-			((GetKey(olc::LEFT).bHeld || GetKey(olc::NP1).bHeld) && iDir != 0) && (iDirNew = 2);
-			((GetKey(olc::DOWN).bHeld || GetKey(olc::NP2).bHeld) && iDir != 1) && (iDirNew = 3);
+			int iDirNew = iDir;
+			if((GetKey(olc::RIGHT).bHeld || GetKey(olc::D).bHeld) && iDir != 2)
+				iDirNew = 0;
+			if((GetKey(olc::UP).bHeld || GetKey(olc::W).bHeld) && iDir != 3)
+				iDirNew = 1;
+			if((GetKey(olc::LEFT).bHeld || GetKey(olc::A).bHeld) && iDir != 0)
+				iDirNew = 2;
+			if((GetKey(olc::DOWN).bHeld || GetKey(olc::S).bHeld) && iDir != 1)
+				iDirNew = 3;
 			iDir = iDirNew;
 
 			auto End = std::chrono::high_resolution_clock::now();
@@ -63,17 +71,29 @@ public:
 		}
 
 		switch(iDir) {
-		case 0:	iHeadX++;	break;
-		case 1:	iHeadY--;	break;
-		case 2:	iHeadX--;	break;
-		case 3:	iHeadY++;	break;
+			case 0:
+				iHeadX++;
+				break;
+			case 1:
+				iHeadY--;
+				break;
+			case 2:
+				iHeadX--;
+				break;
+			case 3:
+				iHeadY++;
+				break;
 		}
 
-		iHeadX == -1 && (iHeadX = iWidth - 1);
-		iHeadX == iWidth && (iHeadX = 0);
-		iHeadY == -1 && (iHeadY = iHeight - 1);
-		iHeadY == iHeight && (iHeadY = 0);
-		
+		if(iHeadX == -1)
+			iHeadX = width - 1;
+		else if(iHeadX == width)
+			iHeadX = 0;
+		if(iHeadY == -1)
+			iHeadY = height - 1;
+		else if(iHeadY == height)
+			iHeadY = 0;
+
 		Draw(pParts[0].first, pParts[0].second, olc::BLACK);
 		pParts.pop_front();
 		pParts.emplace_back(iHeadX, iHeadY);
@@ -89,9 +109,9 @@ public:
 };
 
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow) {
+int main() {
 	Example demo;
-	if(demo.Construct(iWidth, iHeight, 8, 8, true))
+	if(demo.Construct(width, height, 8, 8, true))
 		demo.Start();
 	return 0;
 }

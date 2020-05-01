@@ -12,44 +12,51 @@ int main() {
 		program += fileBuffer;
 	}
 
-	std::deque<int> memory{0};
+	std::deque<char> memory{0};
 	size_t memPointer = 0;
 	size_t instPointer = 0;
 
 	while(instPointer >= 0 && instPointer < program.size()) {
 		switch(program[instPointer]) {
-		case '+':	memory[memPointer]++;	break;
-		case '-':	memory[memPointer]--;	break;
-		case '>':
-			if(++memPointer == memory.size())
-				memory.push_back(0);
-			break;
-		case '<':
-			if(memPointer == 0)
-				memory.push_front(0);
-			else
-				memPointer--;
-			break;
-		case '.':	std::cout << (char)memory[memPointer];	break;
-		case ',':
-			std::cout << '\n';
-			char bufferChar;
-			std::cin >> bufferChar;
-			memory[memPointer] = bufferChar;
-			break;
-		case ']':
-			if(memory[memPointer] > 0) {
-				int iBrackets = 0;
-				do {
-					if(instPointer < 0) {
-						std::cout << "\nError: matching left bracket not found\n";
-						return 0;
-					}
-					(program[instPointer] == '[') && iBrackets++;
-					(program[instPointer] == ']') && iBrackets--;
-					instPointer--;
-				} while(iBrackets != 0);
-			}
+			case '+':
+				memory[memPointer]++;
+				break;
+			case '-':
+				memory[memPointer]--;
+				break;
+			case '>':
+				if(++memPointer == memory.size())
+					memory.push_back(0);
+				break;
+			case '<':
+				if(memPointer == 0)
+					memory.push_front(0);
+				else
+					memPointer--;
+				break;
+			case '.':
+				putchar(memory[memPointer]);
+				break;
+			case ',':
+				putchar('\n');
+				memory[memPointer] = getchar();
+				break;
+			case ']':
+				if(memory[memPointer]) {
+					int iBrackets = 0;
+					do {
+						if(instPointer < 0) {
+							std::cout << "\nError: matching left bracket not found\n";
+							return 0;
+						}
+						if(program[instPointer] == '[')
+							iBrackets++;
+						else if(program[instPointer] == ']')
+							iBrackets--;
+						instPointer--;
+					} while(iBrackets);
+				}
+				break;
 		}
 
 		instPointer++;

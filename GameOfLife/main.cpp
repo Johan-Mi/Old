@@ -2,21 +2,24 @@
 #include "olcPixelGameEngine.h"
 #include <ctime>
 #include <chrono>
+#include <memory.h>
 
-constexpr int iWidth = 192, iHeight = 108;
-bool bBoard[iHeight + 2][iWidth + 2], bBuffer[iHeight + 2][iWidth + 2];
+constexpr size_t width = 192;
+constexpr size_t height = 108;
+bool bBoard[height + 2][width + 2];
+bool bBuffer[height + 2][width + 2];
 
-class Example : public olc::PixelGameEngine {
+class GameOfLife : public olc::PixelGameEngine {
 public:
-	Example() {
+	GameOfLife() {
 		sAppName = "Conway's game of life";
 	}
 
 public:
 	bool OnUserCreate() override {
 		srand(time(NULL));
-		for(int i = 1; i <= iHeight; i++) {
-			for(int j = 1; j <= iWidth; j++)
+		for(size_t i = 1; i <= height; i++) {
+			for(size_t j = 1; j <= width; j++)
 				bBoard[i][j] = rand() % 2;
 		}
 		return true;
@@ -25,15 +28,16 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override {
 		if(GetKey(olc::ESCAPE).bHeld)
 			return false;
-		for(int i = 1; i <= iHeight; i++) {
-			for(int j = 1; j <= iWidth; j++) {
+		for(size_t i = 1; i <= height; i++) {
+			for(size_t j = 1; j <= width; j++) {
 				Draw(j, i, bBoard[i][j] ? olc::WHITE : olc::BLACK);
 				int iNeighbours = 0;
-				for(int m = -1; m < 2; m++) {
+				for(int m = -1; m < 2; m++)
 					for(int n = -1; n < 2; n++)
 						iNeighbours += bBoard[i + m][j + n];
-				}
-				bBuffer[i][j] = bBoard[i][j] ? (iNeighbours == 3 || iNeighbours == 4) : (iNeighbours == 3);
+				bBuffer[i][j] = bBoard[i][j]
+					? (iNeighbours == 3 || iNeighbours == 4)
+					: (iNeighbours == 3);
 			}
 		}
 		memcpy(bBoard, bBuffer, sizeof(bBuffer));
@@ -43,9 +47,9 @@ public:
 };
 
 int main() {
-	Example demo;
-	if(demo.Construct(iWidth, iHeight, 8, 8, true))
-		demo.Start();
+	GameOfLife game;
+	if(game.Construct(width, height, 8, 8, true))
+		game.Start();
 
 	return 0;
 }
