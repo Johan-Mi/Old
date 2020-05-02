@@ -60,10 +60,10 @@ int main() {
 				inputWords.push_back("UNKNOWN");
 		}
 
-		std::cout << "Parsed: ";
-		for(auto a : inputWords)
-			std::cout << a << ' ';
-		std::cout << '\n';
+		/* std::cout << "Parsed: "; */
+		/* for(auto a : inputWords) */
+		/* 	std::cout << a << ' '; */
+		/* std::cout << '\n'; */
 
 		float fPhraseMatch = 0;
 		int iBestResponse = 0;
