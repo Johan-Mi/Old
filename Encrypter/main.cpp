@@ -3,18 +3,28 @@
 #include <vector>
 #include <string>
 
+enum struct Mode {
+	Encrypting, Decrypting
+};
+
 int main() {
 	std::string sKey, sModeInput;
-	bool bMode;
+	Mode mode;
 
 	std::cout << "Select a mode\nEncrypt: 1\nDecrypt: 2\n";
 	std::cin >> sModeInput;
-	bMode = sModeInput != "2";
+	if(sModeInput == "1") {
+		mode = Mode::Encrypting;
+		std::cout << "Encryption key: ";
+	} else {
+		mode = Mode::Decrypting;
+		std::cout << "Decryption key: ";
+	}
 
-	std::cout << (bMode ? "Encryption key: " : "Decryption key: ");
 	std::cin >> sKey;
 
-	std::ifstream infile(bMode ? "decrypted.txt" : "encrypted.txt");
+	std::ifstream infile(mode == Mode::Decrypting
+			? "decrypted.txt" : "encrypted.txt");
 	std::vector<char> buffer;
 
 	infile.seekg(0, infile.end);
@@ -26,13 +36,14 @@ int main() {
 		infile.read(&buffer[0], length);
 	}
 
-	for(int i = 0; i < buffer.size(); i++) {
-		if(bMode)
+	for(size_t i = 0; i < buffer.size(); i++) {
+		if(mode == Mode::Encrypting)
 			buffer[i] += sKey[i % sKey.length()];
 		else
 			buffer[i] -= sKey[i % sKey.length()];
 	}
 
-	std::ofstream outfile(bMode ? "encrypted.txt" : "decrypted.txt", std::ios::trunc);
+	std::ofstream outfile(mode == Mode::Encrypting
+			? "encrypted.txt" : "decrypted.txt", std::ios::trunc);
 	outfile.write(&buffer[0], buffer.size());
 }
