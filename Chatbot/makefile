@@ -1,2 +1,2 @@
 main: main.cpp
-	g++ -o main main.cpp -Wall -O3
+	g++ -o main main.cpp -std=c++17 -Wall -O3

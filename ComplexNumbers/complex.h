@@ -42,10 +42,10 @@ Complex operator/(const Complex & lhs, const Complex & rhs) {
 	return lhs * Complex{rhs.real, -rhs.imag} /
 	(rhs.real * rhs.real + rhs.imag * rhs.imag);
 }
-Complex operator==(const Complex & lhs, const Complex & rhs) {
+bool operator==(const Complex & lhs, const Complex & rhs) {
 	return lhs.real == rhs.real && lhs.imag == rhs.imag;
 }
-Complex operator!=(const Complex & lhs, const Complex & rhs) {
+bool operator!=(const Complex & lhs, const Complex & rhs) {
 	return lhs.real != rhs.real || lhs.imag != rhs.imag;
 }
 
