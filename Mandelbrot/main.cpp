@@ -20,20 +20,27 @@ class Mandelbrot : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bPressed)
+        if (GetKey(olc::ESCAPE).bPressed) {
             return false;
-        if (GetKey(olc::A).bHeld)
+        }
+        if (GetKey(olc::A).bHeld) {
             dCenterX -= 0.5 * dSize * fElapsedTime;
-        if (GetKey(olc::D).bHeld)
+        }
+        if (GetKey(olc::D).bHeld) {
             dCenterX += 0.5 * dSize * fElapsedTime;
-        if (GetKey(olc::W).bHeld)
+        }
+        if (GetKey(olc::W).bHeld) {
             dCenterY -= 0.5 * dSize * fElapsedTime;
-        if (GetKey(olc::S).bHeld)
+        }
+        if (GetKey(olc::S).bHeld) {
             dCenterY += 0.5 * dSize * fElapsedTime;
-        if (GetKey(olc::Key::Q).bHeld)
+        }
+        if (GetKey(olc::Key::Q).bHeld) {
             dSize *= 1 + 0.5 * fElapsedTime;
-        if (GetKey(olc::Key::E).bHeld)
+        }
+        if (GetKey(olc::Key::E).bHeld) {
             dSize /= 1 + 0.5 * fElapsedTime;
+        }
 
         for (int x = 0; x < ScreenWidth(); x++) {
             for (int y = 0; y < ScreenHeight(); y++) {
@@ -46,8 +53,9 @@ class Mandelbrot : public olc::PixelGameEngine {
                 long double a2 = a;
                 long double b2 = b;
 
-                while (++iIterations < iMaxIterations && a * a + b * b < 4)
+                while (++iIterations < iMaxIterations && a * a + b * b < 4) {
                     b = 2 * std::exchange(a, a * a - b * b + a2) * b + b2;
+                }
                 uint8_t l =
                     iIterations == iMaxIterations
                         ? 0
@@ -61,8 +69,9 @@ class Mandelbrot : public olc::PixelGameEngine {
 
 int main() {
     Mandelbrot mandelbrot;
-    if (mandelbrot.Construct(512, 512, 2, 2, true))
+    if (mandelbrot.Construct(512, 512, 2, 2, true)) {
         mandelbrot.Start();
+    }
 
     return 0;
 }

@@ -60,8 +60,9 @@ class Example : public olc::PixelGameEngine {
             switch (n.byte2) {
             case 0xE0:
                 Clear(olc::BLACK);
-                for (size_t i = 0; i < height; i++)
+                for (size_t i = 0; i < height; i++) {
                     screen[i].fill(false);
+                }
                 PC += 2;
                 break;
             case 0xEE:
@@ -208,12 +209,14 @@ class Example : public olc::PixelGameEngine {
                 memory[I + 2] = Vx % 10;
                 break;
             case 0x55:
-                for (unsigned int i = 0; i <= n.nybble2; i++)
+                for (unsigned int i = 0; i <= n.nybble2; i++) {
                     memory[I + i] = vRegs[i];
+                }
                 break;
             case 0x65:
-                for (unsigned int i = 0; i <= n.nybble2; i++)
+                for (unsigned int i = 0; i <= n.nybble2; i++) {
                     vRegs[i] = memory[I + i];
+                }
                 break;
             }
             PC += 2;
@@ -240,24 +243,28 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
         return tick();
     }
 };
 
 int main() {
     std::thread timerThread{[]() {
-        if (DT > 0)
+        if (DT > 0) {
             DT--;
-        if (ST > 0)
+        }
+        if (ST > 0) {
             ST--;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
     }};
 
     Example demo;
-    if (demo.Construct(width, height, 16, 16))
+    if (demo.Construct(width, height, 16, 16)) {
         demo.Start();
+    }
     timerThread.detach();
 
     return 0;

@@ -25,14 +25,16 @@ int main() {
             memory[memPointer]--;
             break;
         case '>':
-            if (++memPointer == memory.size())
+            if (++memPointer == memory.size()) {
                 memory.push_back(0);
+            }
             break;
         case '<':
-            if (memPointer == 0)
+            if (memPointer == 0) {
                 memory.push_front(0);
-            else
+            } else {
                 memPointer--;
+            }
             break;
         case '.':
             putchar(memory[memPointer]);
@@ -50,10 +52,11 @@ int main() {
                             << "\nError: matching left bracket not found\n";
                         return 0;
                     }
-                    if (program[instPointer] == '[')
+                    if (program[instPointer] == '[') {
                         iBrackets++;
-                    else if (program[instPointer] == ']')
+                    } else if (program[instPointer] == ']') {
                         iBrackets--;
+                    }
                     instPointer--;
                 } while (iBrackets);
             }

@@ -66,8 +66,9 @@ int main() {
                     break;
                 }
             }
-            if (!bFoundWordMeaning)
+            if (!bFoundWordMeaning) {
                 inputWords.push_back("UNKNOWN");
+            }
         }
 
         float fPhraseMatch = 0;
@@ -79,8 +80,9 @@ int main() {
                 if (std::find(
                         currentPhrase.first.begin(), currentPhrase.first.end(),
                         currentWord
-                    ) != currentPhrase.first.end())
+                    ) != currentPhrase.first.end()) {
                     fCurrentPhraseMatch++;
+                }
             }
             fCurrentPhraseMatch /= (float)currentPhrase.first.size();
 

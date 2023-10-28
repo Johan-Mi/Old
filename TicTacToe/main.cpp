@@ -15,18 +15,23 @@ constexpr uint8_t winChecks[8][3]{{0, 1, 2}, {4, 5, 6},  {8, 9, 10}, {0, 4, 8},
 
 void checkWin(uint8_t iSide) {
     for (uint8_t i = 0; i < 8; i++) {
-        for (uint8_t j = 0; j < 3; j++)
-            if (iBoard[winChecks[i][j] >> 2][winChecks[i][j] & 3] != iSide)
+        for (uint8_t j = 0; j < 3; j++) {
+            if (iBoard[winChecks[i][j] >> 2][winChecks[i][j] & 3] != iSide) {
                 goto no_win;
+            }
+        }
         iWinner = iSide;
         return;
     no_win:;
     }
 
-    for (uint8_t i = 0; i < 3; i++)
-        for (uint8_t j = 0; j < 3; j++)
-            if (!iBoard[i][j])
+    for (uint8_t i = 0; i < 3; i++) {
+        for (uint8_t j = 0; j < 3; j++) {
+            if (!iBoard[i][j]) {
                 return;
+            }
+        }
+    }
     iWinner = 4;
 }
 
@@ -69,8 +74,9 @@ class Example : public olc::PixelGameEngine {
             return true;
         }
 
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
         if (GetMouse(0).bPressed) {
             uint8_t iMouseX = GetMouseX() / 33;
             uint8_t iMouseY = GetMouseY() / 33;
@@ -90,7 +96,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(98, 98, 4, 4))
+    if (demo.Construct(98, 98, 4, 4)) {
         demo.Start();
+    }
     return 0;
 }

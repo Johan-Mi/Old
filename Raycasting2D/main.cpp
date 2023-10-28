@@ -77,15 +77,19 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bPressed)
+        if (GetKey(olc::ESCAPE).bPressed) {
             return false;
-        if (GetKey(olc::M).bPressed)
+        }
+        if (GetKey(olc::M).bPressed) {
             bDrawMinimap = !bDrawMinimap;
+        }
 
-        if (GetKey(olc::J).bHeld)
+        if (GetKey(olc::J).bHeld) {
             fPlayerDir -= 2 * fElapsedTime;
-        if (GetKey(olc::K).bHeld)
+        }
+        if (GetKey(olc::K).bHeld) {
             fPlayerDir += 2 * fElapsedTime;
+        }
 
         float fPlayerOldX = fPlayerX;
         float fPlayerOldY = fPlayerY;
@@ -118,8 +122,9 @@ class Example : public olc::PixelGameEngine {
         int iShade;
         for (size_t x = 0; x < ScreenHeight() / 2; x++) {
             iShade = 60 - (float)x / ScreenHeight() * 120;
-            if (iShade < 0)
+            if (iShade < 0) {
                 iShade = 0;
+            }
             DrawLine(
                 0, x, ScreenWidth(), x, olc::Pixel(iShade, iShade, iShade)
             );
@@ -150,8 +155,9 @@ class Example : public olc::PixelGameEngine {
                     (float)(ScreenHeight() / 2) - ScreenHeight() / fRayDist;
                 int iFloor = ScreenHeight() - iCeiling;
                 int iShadeR = 255 - fRayDist * 12;
-                if (iShadeR < 10)
+                if (iShadeR < 10) {
                     iShadeR = 10;
+                }
                 int iShadeG = iShadeR;
                 int iShadeB = iShadeR;
 
@@ -179,8 +185,9 @@ class Example : public olc::PixelGameEngine {
         if (bDrawMinimap) {
             for (size_t y = 0; y < map.size(); y++) {
                 for (size_t x = 0; x < map[0].length(); x++) {
-                    if (map[y][x] != ' ')
+                    if (map[y][x] != ' ') {
                         FillRect(x * 5 + 3, y * 5 + 3, 5, 5, olc::BLUE);
+                    }
                 }
             }
             DrawLine(
@@ -197,8 +204,9 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(1600, 900, 1, 1, true))
+    if (demo.Construct(1600, 900, 1, 1, true)) {
         demo.Start();
+    }
 
     return 0;
 }

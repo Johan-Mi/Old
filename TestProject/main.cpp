@@ -7,19 +7,23 @@ void caesar(const char *input, int shift) {
         if (character > 64 && character < 91) {
             for (int j = 0; j < shift; j++) {
                 character++;
-                if (character >= 91)
+                if (character >= 91) {
                     character = 0;
-                while (character >= 64)
+                }
+                while (character >= 64) {
                     character++;
+                }
             }
         }
         if (character > 96 && character < 123) {
             for (int j = 0; j < shift; j++) {
                 character++;
-                if (character >= 123)
+                if (character >= 123) {
                     character = 0;
-                while (character <= 96)
+                }
+                while (character <= 96) {
                     character++;
+                }
             }
         }
         char *newString = new char[strlen(output) + 2];

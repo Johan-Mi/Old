@@ -107,14 +107,17 @@ std::ostream &operator<<(std::ostream &stream, const Complex &num) {
     } else {
         if (num.real != 0) {
             stream << num.real;
-            if (num.imag > 0)
+            if (num.imag > 0) {
                 stream << '+';
+            }
         }
         if (num.imag != 0) {
-            if (num.imag != 1 && num.imag != -1)
+            if (num.imag != 1 && num.imag != -1) {
                 stream << num.imag;
-            if (num.imag == -1)
+            }
+            if (num.imag == -1) {
                 stream << '-';
+            }
             stream << 'i';
         }
     }

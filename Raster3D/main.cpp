@@ -178,10 +178,11 @@ class Example : public olc::PixelGameEngine {
                      ScreenWidth() / 2 - 200 * t.p3.x,
                      ScreenHeight() / 2 - 200 * t.p3.y},
                  t.colour}}))));
-        for (auto k : clippedTriangles)
+        for (auto k : clippedTriangles) {
             FillTriangle(
                 k.p1.x, k.p1.y, k.p2.x, k.p2.y, k.p3.x, k.p3.y, k.colour
             );
+        }
     }
 
     Point2D
@@ -474,8 +475,9 @@ class Example : public olc::PixelGameEngine {
 
     void pointPipeline(Point3D p) {
         Point3D p1 = pointCameraTransform(p, mainCamera);
-        if (p1.z >= fMinDrawDistance)
+        if (p1.z >= fMinDrawDistance) {
             renderPoint(pointToScreen(p1));
+        }
     }
 
     void linePipeline(Line3D l) {
@@ -484,10 +486,11 @@ class Example : public olc::PixelGameEngine {
         if (p1.z > fMinDrawDistance || p2.z > fMinDrawDistance) {
             if (p1.z <= fMinDrawDistance || p2.z <= fMinDrawDistance) {
                 Point3D intersection = nearPlaneLineIntersection(p1, p2);
-                if (p1.z <= fMinDrawDistance)
+                if (p1.z <= fMinDrawDistance) {
                     p1 = intersection;
-                else
+                } else {
                     p2 = intersection;
+                }
             }
             renderLine(pointToScreen(p1), pointToScreen(p2));
         }
@@ -578,8 +581,9 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
 
         POINT p;
         GetCursorPos(&p);
@@ -593,15 +597,19 @@ class Example : public olc::PixelGameEngine {
         mainCamera.yaw += 0.04f * iMouseDx;
         mainCamera.pitch += 0.04f * iMouseDy;
 
-        if (mainCamera.pitch > pi / 2)
+        if (mainCamera.pitch > pi / 2) {
             mainCamera.pitch = pi / 2;
-        if (mainCamera.pitch < -pi / 2)
+        }
+        if (mainCamera.pitch < -pi / 2) {
             mainCamera.pitch = -pi / 2;
+        }
 
-        if (GetKey(olc::SPACE).bHeld)
+        if (GetKey(olc::SPACE).bHeld) {
             mainCamera.y += 3 * fElapsedTime;
-        if (GetKey(olc::SHIFT).bHeld)
+        }
+        if (GetKey(olc::SHIFT).bHeld) {
             mainCamera.y -= 3 * fElapsedTime;
+        }
         if (GetKey(olc::A).bHeld) {
             mainCamera.x += 3 * cosf(mainCamera.yaw) * fElapsedTime;
             mainCamera.z += 3 * sinf(mainCamera.yaw) * fElapsedTime;
@@ -618,19 +626,23 @@ class Example : public olc::PixelGameEngine {
             mainCamera.x -= 3 * sinf(mainCamera.yaw) * fElapsedTime;
             mainCamera.z += 3 * cosf(mainCamera.yaw) * fElapsedTime;
         }
-        if (GetKey(olc::K1).bPressed)
+        if (GetKey(olc::K1).bPressed) {
             bRenderPoints ^= true;
-        if (GetKey(olc::K2).bPressed)
+        }
+        if (GetKey(olc::K2).bPressed) {
             bRenderLines ^= true;
-        if (GetKey(olc::K3).bPressed)
+        }
+        if (GetKey(olc::K3).bPressed) {
             bRenderTris ^= true;
+        }
 
         Clear(olc::BLACK);
 
         if (bRenderTris) {
             storedTris.clear();
-            for (auto i : tris)
+            for (auto i : tris) {
                 triPipeline(i);
+            }
             std::sort(
                 storedTris.begin(), storedTris.end(),
                 [](std::pair<Tri2D, float> element1,
@@ -638,15 +650,20 @@ class Example : public olc::PixelGameEngine {
                     return element1.second > element2.second;
                 }
             );
-            for (auto i : storedTris)
+            for (auto i : storedTris) {
                 renderClippedTri(i.first);
+            }
         }
-        if (bRenderLines)
-            for (auto i : lines)
+        if (bRenderLines) {
+            for (auto i : lines) {
                 linePipeline(i);
-        if (bRenderPoints)
-            for (auto i : points)
+            }
+        }
+        if (bRenderPoints) {
+            for (auto i : points) {
                 pointPipeline(i);
+            }
+        }
 
         return true;
     }
@@ -654,7 +671,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(960, 540, 4, 4, true))
+    if (demo.Construct(960, 540, 4, 4, true)) {
         demo.Start();
+    }
     return 0;
 }

@@ -126,15 +126,17 @@ class Example : public olc::PixelGameEngine {
     bool OnUserCreate() override {
         SetPixelMode(olc::Pixel::MASK);
 
-        for (size_t i = 0; i < TILECOUNT; i++)
+        for (size_t i = 0; i < TILECOUNT; i++) {
             sprTiles[i] = std::make_unique<olc::Sprite>(
                 "Textures/Tiles/tile_" + std::to_string(i + 1) + ".png"
             );
+        }
 
-        for (size_t i = 0; i < PLAYERSPRITECOUNT; i++)
+        for (size_t i = 0; i < PLAYERSPRITECOUNT; i++) {
             sprPlayer[i] = std::make_unique<olc::Sprite>(
                 "Textures/Sprites/player_" + std::to_string(i) + ".png"
             );
+        }
 
         player.x = 3.0f;
         player.y = (float)LEVELHEIGHT - 5.0f;
@@ -146,28 +148,37 @@ class Example : public olc::PixelGameEngine {
         ((fAnimationTimer += fElapsedTime) < 0.15f) || (fAnimationTimer = 0) ||
             (++fAnimationCycle != 6) || (fAnimationCycle = 0);
 
-        if (GetKey(olc::ESCAPE).bPressed)
+        if (GetKey(olc::ESCAPE).bPressed) {
             return false;
-        if (GetKey(olc::D).bHeld)
+        }
+        if (GetKey(olc::D).bHeld) {
             player.x += fPlayerSpeed * fElapsedTime;
-        if (GetKey(olc::A).bHeld)
+        }
+        if (GetKey(olc::A).bHeld) {
             player.x -= fPlayerSpeed * fElapsedTime;
-        if (GetKey(olc::S).bHeld)
+        }
+        if (GetKey(olc::S).bHeld) {
             player.y += fPlayerSpeed * fElapsedTime;
-        if (GetKey(olc::W).bHeld)
+        }
+        if (GetKey(olc::W).bHeld) {
             player.y -= fPlayerSpeed * fElapsedTime;
+        }
 
         camera.x = player.x - (float)SCREENWIDTH / 2.0f;
         camera.y = player.y - (float)SCREENHEIGHT / 2.0f;
 
-        if (camera.x < 0.0f)
+        if (camera.x < 0.0f) {
             camera.x = 0.0f;
-        if (camera.y < 0.0f)
+        }
+        if (camera.y < 0.0f) {
             camera.y = 0.0f;
-        if (camera.x > LEVELWIDTH - SCREENWIDTH - 1)
+        }
+        if (camera.x > LEVELWIDTH - SCREENWIDTH - 1) {
             camera.x = (float)(LEVELWIDTH - SCREENWIDTH - 1);
-        if (camera.y > LEVELHEIGHT - SCREENHEIGHT - 1)
+        }
+        if (camera.y > LEVELHEIGHT - SCREENHEIGHT - 1) {
             camera.y = (float)(LEVELHEIGHT - SCREENHEIGHT - 1);
+        }
 
         Clear(olc::Pixel(0xfffc8868));
 
@@ -205,7 +216,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(SCREENWIDTH * 16, SCREENHEIGHT * 16, 3, 3))
+    if (demo.Construct(SCREENWIDTH * 16, SCREENHEIGHT * 16, 3, 3)) {
         demo.Start();
+    }
     return 0;
 }

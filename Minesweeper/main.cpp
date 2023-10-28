@@ -37,47 +37,65 @@ class Example : public olc::PixelGameEngine {
             iTilesLeft--;
             if (iBoard[y][x] == -1) {
                 bHasLost = true;
-                for (size_t i = 0; i < boardHeight; i++)
-                    for (size_t j = 0; j < boardWidth; j++)
+                for (size_t i = 0; i < boardHeight; i++) {
+                    for (size_t j = 0; j < boardWidth; j++) {
                         iBoardVisible[i][j] = 2;
+                    }
+                }
             } else if (iBoard[y][x] == 0) {
                 if (x > 0) {
-                    if (iBoardVisible[y][x - 1] != 2)
+                    if (iBoardVisible[y][x - 1] != 2) {
                         digTile(x - 1, y);
-                    if (y > 0)
-                        if (iBoardVisible[y - 1][x - 1] != 2)
+                    }
+                    if (y > 0) {
+                        if (iBoardVisible[y - 1][x - 1] != 2) {
                             digTile(x - 1, y - 1);
-                    if (y < boardHeight - 1)
-                        if (iBoardVisible[y + 1][x - 1] != 2)
+                        }
+                    }
+                    if (y < boardHeight - 1) {
+                        if (iBoardVisible[y + 1][x - 1] != 2) {
                             digTile(x - 1, y + 1);
+                        }
+                    }
                 }
 
                 if (x < boardWidth - 1) {
-                    if (iBoardVisible[y][x + 1] != 2)
+                    if (iBoardVisible[y][x + 1] != 2) {
                         digTile(x + 1, y);
-                    if (y > 0)
-                        if (iBoardVisible[y - 1][x + 1] != 2)
+                    }
+                    if (y > 0) {
+                        if (iBoardVisible[y - 1][x + 1] != 2) {
                             digTile(x + 1, y - 1);
-                    if (y < boardHeight - 1)
-                        if (iBoardVisible[y + 1][x + 1] != 2)
+                        }
+                    }
+                    if (y < boardHeight - 1) {
+                        if (iBoardVisible[y + 1][x + 1] != 2) {
                             digTile(x + 1, y + 1);
+                        }
+                    }
                 }
 
-                if (y > 0)
-                    if (iBoardVisible[y - 1][x] != 2)
+                if (y > 0) {
+                    if (iBoardVisible[y - 1][x] != 2) {
                         digTile(x, y - 1);
+                    }
+                }
 
-                if (y < boardHeight - 1)
-                    if (iBoardVisible[y + 1][x] != 2)
+                if (y < boardHeight - 1) {
+                    if (iBoardVisible[y + 1][x] != 2) {
                         digTile(x, y + 1);
+                    }
+                }
             }
         }
 
         if (iTilesLeft == 0) {
             bHasWon = true;
-            for (size_t i = 0; i < boardHeight; i++)
-                for (size_t j = 0; j < boardWidth; j++)
+            for (size_t i = 0; i < boardHeight; i++) {
+                for (size_t j = 0; j < boardWidth; j++) {
                     iBoardVisible[i][j] = 2;
+                }
+            }
         }
         drawTile(x, y);
     }
@@ -121,49 +139,66 @@ class Example : public olc::PixelGameEngine {
             iBoard[iMineY][iMineX] = -1;
 
             if (iMineX > 0) {
-                if (iBoard[iMineY][iMineX - 1] != -1)
+                if (iBoard[iMineY][iMineX - 1] != -1) {
                     iBoard[iMineY][iMineX - 1]++;
-                if (iMineY > 0)
-                    if (iBoard[iMineY - 1][iMineX - 1] != -1)
+                }
+                if (iMineY > 0) {
+                    if (iBoard[iMineY - 1][iMineX - 1] != -1) {
                         iBoard[iMineY - 1][iMineX - 1]++;
-                if (iMineY < boardHeight - 1)
-                    if (iBoard[iMineY + 1][iMineX - 1] != -1)
+                    }
+                }
+                if (iMineY < boardHeight - 1) {
+                    if (iBoard[iMineY + 1][iMineX - 1] != -1) {
                         iBoard[iMineY + 1][iMineX - 1]++;
+                    }
+                }
             }
 
             if (iMineX < boardWidth - 1) {
-                if (iBoard[iMineY][iMineX + 1] != -1)
+                if (iBoard[iMineY][iMineX + 1] != -1) {
                     iBoard[iMineY][iMineX + 1]++;
-                if (iMineY > 0)
-                    if (iBoard[iMineY - 1][iMineX + 1] != -1)
+                }
+                if (iMineY > 0) {
+                    if (iBoard[iMineY - 1][iMineX + 1] != -1) {
                         iBoard[iMineY - 1][iMineX + 1]++;
-                if (iMineY < boardHeight - 1)
-                    if (iBoard[iMineY + 1][iMineX + 1] != -1)
+                    }
+                }
+                if (iMineY < boardHeight - 1) {
+                    if (iBoard[iMineY + 1][iMineX + 1] != -1) {
                         iBoard[iMineY + 1][iMineX + 1]++;
+                    }
+                }
             }
 
-            if (iMineY > 0)
-                if (iBoard[iMineY - 1][iMineX] != -1)
+            if (iMineY > 0) {
+                if (iBoard[iMineY - 1][iMineX] != -1) {
                     iBoard[iMineY - 1][iMineX]++;
+                }
+            }
 
-            if (iMineY < boardHeight - 1)
-                if (iBoard[iMineY + 1][iMineX] != -1)
+            if (iMineY < boardHeight - 1) {
+                if (iBoard[iMineY + 1][iMineX] != -1) {
                     iBoard[iMineY + 1][iMineX]++;
+                }
+            }
 
             iMineCount--;
         }
 
-        for (size_t i = 0; i < boardHeight; i++)
-            for (size_t j = 0; j < boardWidth; j++)
+        for (size_t i = 0; i < boardHeight; i++) {
+            for (size_t j = 0; j < boardWidth; j++) {
                 DrawSprite(j * 16, i * 16, sprTiles[11].get());
+            }
+        }
 
         return true;
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
         if (IsFocused()) {
-            if (GetKey(olc::ESCAPE).bPressed)
+            if (GetKey(olc::ESCAPE).bPressed) {
                 return false;
+            }
 
             if (GetMouse(0).bPressed || GetMouse(1).bPressed) {
                 size_t iClickX = floor(GetMouseX() / 16);
@@ -191,8 +226,9 @@ class Example : public olc::PixelGameEngine {
             }
             bEndProgram = true;
             for (size_t i = 0; i < boardHeight; i++) {
-                for (size_t j = 0; j < boardWidth; j++)
+                for (size_t j = 0; j < boardWidth; j++) {
                     drawTile(j, i);
+                }
             }
         }
 
@@ -202,7 +238,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(boardWidth * 16, boardHeight * 16, 2, 2, true))
+    if (demo.Construct(boardWidth * 16, boardHeight * 16, 2, 2, true)) {
         demo.Start();
+    }
     return 0;
 }

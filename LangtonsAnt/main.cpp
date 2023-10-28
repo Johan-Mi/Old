@@ -27,8 +27,9 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
         iAntDir.value += bBoard[iAntY][iAntX] ? 1 : -1;
         bBoard[iAntY][iAntX] ^= true;
         Draw(iAntX, iAntY, bBoard[iAntY][iAntX] ? olc::WHITE : olc::BLACK);
@@ -53,8 +54,9 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(width, height, 8, 8, true))
+    if (demo.Construct(width, height, 8, 8, true)) {
         demo.Start();
+    }
 
     return 0;
 }

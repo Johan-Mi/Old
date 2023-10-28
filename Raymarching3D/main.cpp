@@ -63,8 +63,9 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
 
         /* POINT p; */
         /* GetCursorPos(&p); */
@@ -78,15 +79,19 @@ class Example : public olc::PixelGameEngine {
         /* cam.yaw += 0.03 * iMouseDx; */
         /* cam.pitch += 0.03 * iMouseDy; */
 
-        if (cam.pitch > pi / 2)
+        if (cam.pitch > pi / 2) {
             cam.pitch = pi / 2;
-        if (cam.pitch < -pi / 2)
+        }
+        if (cam.pitch < -pi / 2) {
             cam.pitch = -pi / 2;
+        }
 
-        if (GetKey(olc::SPACE).bHeld)
+        if (GetKey(olc::SPACE).bHeld) {
             cam.pos.y -= 3 * fElapsedTime;
-        if (GetKey(olc::SHIFT).bHeld)
+        }
+        if (GetKey(olc::SHIFT).bHeld) {
             cam.pos.y += 3 * fElapsedTime;
+        }
         if (GetKey(olc::W).bHeld) {
             cam.pos.x += 3 * cosf(cam.yaw) * fElapsedTime;
             cam.pos.z += 3 * sinf(cam.yaw) * fElapsedTime;
@@ -153,7 +158,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(240, 135, 4, 4, true))
+    if (demo.Construct(240, 135, 4, 4, true)) {
         demo.Start();
+    }
     return 0;
 }

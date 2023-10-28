@@ -44,12 +44,14 @@ class Example : public olc::PixelGameEngine {
     }
 
     bool OnUserUpdate(float fElapsedTime) override {
-        if (fElapsedTime > 1)
+        if (fElapsedTime > 1) {
             fElapsedTime = 0;
+        }
 
         fBallSpeed = 200 + (std::clock() - timer) / 1000;
-        if (GetKey(olc::ESCAPE).bHeld)
+        if (GetKey(olc::ESCAPE).bHeld) {
             return false;
+        }
 
         Clear(olc::BLACK);
         DrawLine(0, 16, ScreenWidth(), 16, olc::WHITE);
@@ -61,13 +63,15 @@ class Example : public olc::PixelGameEngine {
 
         if (GetKey(olc::UP).bHeld) {
             fPlayer -= fPaddleSpeed * fElapsedTime;
-            if (fPlayer < iPaddleSize + 16)
+            if (fPlayer < iPaddleSize + 16) {
                 fPlayer = iPaddleSize + 16;
+            }
         }
         if (GetKey(olc::DOWN).bHeld) {
             fPlayer += fPaddleSpeed * fElapsedTime;
-            if (fPlayer > ScreenHeight() - iPaddleSize)
+            if (fPlayer > ScreenHeight() - iPaddleSize) {
                 fPlayer = ScreenHeight() - iPaddleSize;
+            }
         }
 
         fBallX += cosf(fBallDir) * fBallSpeed * fElapsedTime;
@@ -91,13 +95,15 @@ class Example : public olc::PixelGameEngine {
 
         if (fBallX > ScreenWidth() / 2 && fBallY - fComp < -8) {
             fComp -= fPaddleSpeed * fElapsedTime;
-            if (fComp < iPaddleSize + 16)
+            if (fComp < iPaddleSize + 16) {
                 fComp = iPaddleSize + 16;
+            }
         }
         if (fBallX > ScreenWidth() / 2 && fBallY - fComp > 8) {
             fComp += fPaddleSpeed * fElapsedTime;
-            if (fComp > ScreenHeight() - iPaddleSize)
+            if (fComp > ScreenHeight() - iPaddleSize) {
                 fComp = ScreenHeight() - iPaddleSize;
+            }
         }
 
         if (fBallX < 0) {
@@ -121,8 +127,9 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(320, 180, 4, 4, true))
+    if (demo.Construct(320, 180, 4, 4, true)) {
         demo.Start();
+    }
 
     return 0;
 }

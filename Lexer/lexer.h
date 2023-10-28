@@ -53,8 +53,9 @@ Start:
                 output.push_back(currentString + toggler);
                 currentString = "";
             } else {
-                if (currentString.length() > 0)
+                if (currentString.length() > 0) {
                     output.push_back(currentString);
+                }
                 currentString = toggler;
             }
             stringMode ^= true;

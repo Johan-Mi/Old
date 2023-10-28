@@ -31,8 +31,9 @@ class Example : public olc::PixelGameEngine {
             bPlaceable = true;
             iFoodX = rand() % width;
             iFoodY = rand() % height;
-            for (auto a : pParts)
+            for (auto a : pParts) {
                 bPlaceable &= !(a.first == iFoodX && a.second == iFoodY);
+            }
         }
         Draw(iFoodX, iFoodY, olc::RED);
     }
@@ -41,31 +42,42 @@ class Example : public olc::PixelGameEngine {
         int iHeadX = pParts.back().first;
         int iHeadY = pParts.back().second;
 
-        for (auto &part : pParts)
+        for (auto &part : pParts) {
             if (iHeadX == part.first && iHeadY == part.second &&
-                &part != &pParts.back())
+                &part != &pParts.back()) {
                 return false;
+            }
+        }
 
         auto Start = std::chrono::high_resolution_clock::now();
         while (true) {
-            if (GetKey(olc::ESCAPE).bHeld)
+            if (GetKey(olc::ESCAPE).bHeld) {
                 return false;
+            }
 
             int iDirNew = iDir;
-            if ((GetKey(olc::RIGHT).bHeld || GetKey(olc::D).bHeld) && iDir != 2)
+            if ((GetKey(olc::RIGHT).bHeld || GetKey(olc::D).bHeld) &&
+                iDir != 2) {
                 iDirNew = 0;
-            if ((GetKey(olc::UP).bHeld || GetKey(olc::W).bHeld) && iDir != 3)
+            }
+            if ((GetKey(olc::UP).bHeld || GetKey(olc::W).bHeld) && iDir != 3) {
                 iDirNew = 1;
-            if ((GetKey(olc::LEFT).bHeld || GetKey(olc::A).bHeld) && iDir != 0)
+            }
+            if ((GetKey(olc::LEFT).bHeld || GetKey(olc::A).bHeld) &&
+                iDir != 0) {
                 iDirNew = 2;
-            if ((GetKey(olc::DOWN).bHeld || GetKey(olc::S).bHeld) && iDir != 1)
+            }
+            if ((GetKey(olc::DOWN).bHeld || GetKey(olc::S).bHeld) &&
+                iDir != 1) {
                 iDirNew = 3;
+            }
             iDir = iDirNew;
 
             auto End = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::milli> Elapsed = End - Start;
-            if (Elapsed.count() >= 100)
+            if (Elapsed.count() >= 100) {
                 break;
+            }
         }
 
         switch (iDir) {
@@ -83,22 +95,25 @@ class Example : public olc::PixelGameEngine {
             break;
         }
 
-        if (iHeadX == -1)
+        if (iHeadX == -1) {
             iHeadX = width - 1;
-        else if (iHeadX == width)
+        } else if (iHeadX == width) {
             iHeadX = 0;
-        if (iHeadY == -1)
+        }
+        if (iHeadY == -1) {
             iHeadY = height - 1;
-        else if (iHeadY == height)
+        } else if (iHeadY == height) {
             iHeadY = 0;
+        }
 
         Draw(pParts[0].first, pParts[0].second, olc::BLACK);
         pParts.pop_front();
         pParts.emplace_back(iHeadX, iHeadY);
         if (iHeadX == iFoodX && iHeadY == iFoodY) {
             placeFood();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++) {
                 pParts.push_front(pParts[0]);
+            }
         }
         Draw(iHeadX, iHeadY, olc::GREEN);
 
@@ -108,7 +123,8 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(width, height, 8, 8, true))
+    if (demo.Construct(width, height, 8, 8, true)) {
         demo.Start();
+    }
     return 0;
 }

@@ -65,8 +65,9 @@ struct Rvalue {
 
     constexpr void PromoteToType(const Type inType) {
         if (type == inType || (IsIntegral(type) == IsIntegral(inType) &&
-                               TypeRank(type) > TypeRank(inType)))
+                               TypeRank(type) > TypeRank(inType))) {
             return;
+        }
 
         bool b = 0;
         int i = 0;
@@ -118,14 +119,15 @@ struct Rvalue {
 };
 
 constexpr void EnsureSameType(Rvalue &left, Rvalue &right) {
-    if (IsIntegral(left.type) && !IsIntegral(right.type))
+    if (IsIntegral(left.type) && !IsIntegral(right.type)) {
         left.PromoteToType(right.type);
-    else if (IsIntegral(right.type) && !IsIntegral(left.type))
+    } else if (IsIntegral(right.type) && !IsIntegral(left.type)) {
         right.PromoteToType(left.type);
-    else if (TypeRank(right.type) > TypeRank(left.type))
+    } else if (TypeRank(right.type) > TypeRank(left.type)) {
         left.PromoteToType(right.type);
-    else
+    } else {
         right.PromoteToType(left.type);
+    }
 }
 
 #define MKBOP(Op)                                                              \
@@ -205,8 +207,9 @@ int main() {
     char readBuffer;
     while (!fileStream.eof()) {
         fileStream >> std::noskipws >> readBuffer;
-        if (readBuffer != '\n')
+        if (readBuffer != '\n') {
             rawProgram += readBuffer;
+        }
     }
 
     std::vector<std::string> lexedProgram =

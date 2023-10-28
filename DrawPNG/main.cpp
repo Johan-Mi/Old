@@ -25,8 +25,9 @@ class Example : public olc::PixelGameEngine {
 
 int main() {
     Example demo;
-    if (demo.Construct(120, 100, 2, 2))
+    if (demo.Construct(120, 100, 2, 2)) {
         demo.Start();
+    }
 
     return 0;
 }

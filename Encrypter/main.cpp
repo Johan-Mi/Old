@@ -36,10 +36,11 @@ int main() {
     }
 
     for (size_t i = 0; i < buffer.size(); i++) {
-        if (mode == Mode::Encrypting)
+        if (mode == Mode::Encrypting) {
             buffer[i] += sKey[i % sKey.length()];
-        else
+        } else {
             buffer[i] -= sKey[i % sKey.length()];
+        }
     }
 
     std::ofstream outfile(
