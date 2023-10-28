@@ -153,10 +153,10 @@ class Vector3 {
     }
 };
 
-auto vector2FromAngle = [&](float fAngle) {
+auto vector2FromAngle = [](float fAngle) {
     return Vector2(cosf(fAngle), sinf(fAngle));
 };
-auto vector3FromAngles = [&](float fPitch, float fYaw) {
+auto vector3FromAngles = [](float fPitch, float fYaw) {
     return Vector3(
         cosf(fPitch) * cosf(fYaw), sinf(fPitch), cosf(fPitch) * sinf(fYaw)
     );
