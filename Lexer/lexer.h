@@ -14,9 +14,9 @@ lex(std::string const &input,
     std::vector<std::string> const &delimiters = {},
     std::vector<std::string> const &splitters = {},
 #else
-     std::vector<std::string> tokens = {},
-     std::vector<std::string> delimiters = {},
-     std::vector<std::string> splitters = {},
+    std::vector<std::string> tokens = {},
+    std::vector<std::string> delimiters = {},
+    std::vector<std::string> splitters = {},
 #endif
     std::string const &toggler = "\0") {
 
