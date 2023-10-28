@@ -21,7 +21,7 @@ const std::unordered_map<std::string_view, const std::vector<std::string_view>>
         {"IT", {"it"}},
     };
 
-const std::vector<std::pair<const std::vector<std::string_view>, const int>>
+const std::vector<std::pair<const std::vector<std::string_view>, int const>>
     phrases{
         {{"GREETING"}, 1},
         {{"TIME", "QUESTION:WHAT", "VERB:BE", "IT"}, 2},

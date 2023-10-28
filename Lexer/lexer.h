@@ -8,24 +8,24 @@
           // performance.
 
 std::vector<std::string>
-lex(const std::string &input,
+lex(std::string const &input,
 #if PRESORTED_VECTORS
-    const std::vector<std::string> &tokens = {},
-    const std::vector<std::string> &delimiters = {},
-    const std::vector<std::string> &splitters = {},
+    std::vector<std::string> const &tokens = {},
+    std::vector<std::string> const &delimiters = {},
+    std::vector<std::string> const &splitters = {},
 #else
-    std::vector<std::string> tokens = {},
-    std::vector<std::string> delimiters = {},
-    std::vector<std::string> splitters = {},
+     std::vector<std::string> tokens = {},
+     std::vector<std::string> delimiters = {},
+     std::vector<std::string> splitters = {},
 #endif
-    const std::string &toggler = "\0") {
+    std::string const &toggler = "\0") {
 
     std::vector<std::string> output;
     size_t currentChar = 0;
     std::string currentString;
     bool stringMode = false;
 
-    auto foundToken = [&](const std::string &token, const size_t start) {
+    auto foundToken = [&](std::string const &token, const size_t start) {
         return input.find(token, start) == start;
     };
     auto addCurrentString = [&]() {
@@ -36,8 +36,8 @@ lex(const std::string &input,
     };
 
 #if !PRESORTED_VECTORS
-    auto vectorSortMethod = [](const std::string &string1,
-                               const std::string &string2) {
+    auto vectorSortMethod = [](std::string const &string1,
+                               std::string const &string2) {
         return string1.length() > string2.length();
     };
 

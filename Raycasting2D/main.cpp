@@ -136,11 +136,11 @@ class Example : public olc::PixelGameEngine {
 
         for (int iRayNum = 0; iRayNum < ScreenWidth(); iRayNum++) {
             float fRayDist = 0;
-            const float fRayDir =
+            float const fRayDir =
                 fPlayerDir +
                 atan(((float)iRayNum / ScreenWidth() - 0.5) * fFov);
-            const float fEyeX = cosf(fRayDir);
-            const float fEyeY = sinf(fRayDir);
+            float const fEyeX = cosf(fRayDir);
+            float const fEyeY = sinf(fRayDir);
             int iTestX, iTestY;
 
             do {

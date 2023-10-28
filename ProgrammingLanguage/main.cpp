@@ -50,14 +50,14 @@ struct Rvalue {
     Type type;
     std::variant<bool, float, int> value;
 
-    Rvalue(const bool v) : type(Type::Bool), value(v) {}
-    Rvalue(const int v) : type(Type::Int), value(v) {}
-    Rvalue(const float v) : type(Type::Float), value(v) {}
-    Rvalue(const Lvalue &lval)
+    Rvalue(bool const v) : type(Type::Bool), value(v) {}
+    Rvalue(int const v) : type(Type::Int), value(v) {}
+    Rvalue(float const v) : type(Type::Float), value(v) {}
+    Rvalue(Lvalue const &lval)
         : type(lval.value->type), value(lval.value->value) {}
-    Rvalue(const int v, Type inType) : type(inType), value(v) {}
+    Rvalue(int const v, Type inType) : type(inType), value(v) {}
 
-    Rvalue &operator=(const Rvalue &right) {
+    Rvalue &operator=(Rvalue const &right) {
         value = right.value;
         type = right.type;
         return *this;
@@ -195,7 +195,7 @@ constexpr auto parserUOperators = std::make_array<std::string_view>("!");
 constexpr auto parserDeclarations =
     std::make_array<std::string_view>("int", "bool", "float");
 
-bool IsStringNumber(const std::string &line) {
+bool IsStringNumber(std::string const &line) {
     char *p;
     strtod(line.c_str(), &p);
     return *p == 0;

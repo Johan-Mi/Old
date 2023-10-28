@@ -1,6 +1,6 @@
 #include <iostream>
 
-void caesar(const char *input, int shift) {
+void caesar(char const *input, int shift) {
     char *output{'\0'};
     for (int i = 0; i < strlen(input); i++) {
         char character = *(input + i);
